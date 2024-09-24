@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Produkte und Zertifikate anzeigen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Hero Section Styling */
+        .hero {
+            background-color: #333; /* Dark background */
+            color: white;
+            padding: 60px 0; /* Verringert das Padding für weniger Abstand */
+            text-align: center; /* Zentrierung des Inhalts */
+        }
+
+        /* Button styling */
+        .btn-custom {
+            background-color: #6c757d; /* Grau */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px; /* Abgerundete Ecken */
+            transition: background-color 0.3s ease; /* Sanfte Transition beim Hover */
+        }
+
+        /* Hover-Effekt: Türkis */
+        .btn-custom:hover {
+            background-color: #52EAAF; /* CAG GREEN */
+        }
+
+        /* Abstand für Icons und Text */
+        .btn-custom i {
+            margin-right: 10px;
+        }
+
+        /* Chart-Container */
+        .chart-container {
+            display: flex;
+            justify-content: space-around; /* Zentriert die Charts */
+            margin-top: 40px;
+            height: 500px;
+            padding-left: 50px;
+            padding-right: 50px; 
+        }
+
+        .chart {
+            width: 30%; /* Vergrößert die Breite der Charts */
+            height: 100%; /* Maximale Höhe */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Produkte und Zertifikate anzeigen</h1>
+        <div class="d-grid gap-3 col-6 mx-auto">
+            <a href="zeige_alle_zertifikate.php" class="btn btn-custom">Alle Zertifikate anzeigen</a>
+            <a href="zeige_alle_produkte.php" class="btn btn-custom">Alle Produkte anzeigen</a>
+            <a href="zeige_zertifizierte_produkte.php" class="btn btn-custom">Alle zertifizierten Produkte anzeigen</a>
+        </div>
+    </section>
+
+    <!-- Chart Section -->
+    <section class="container">
+        <div class="chart-container">
+            <canvas id="productChart" class="chart"></canvas>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Fetch and render the product and certificate charts with the updated colors
+        fetch('get_dashboard_data.php')
+            .then(response => response.json())
+            .then(data => {
+                const productChart = new Chart(document.getElementById('productChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.productLabels,
+                        datasets: [{
+                            label: 'Anzahl laufender Produkte je Gruppenfirma',
+                            data: data.productCounts,
+                            backgroundColor: '#52EAAF' // Türkis für die Balkenfarbe
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+
+
+            });
+    </script>
+</body>
+</html>
